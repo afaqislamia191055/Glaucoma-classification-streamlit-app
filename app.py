@@ -3,9 +3,8 @@ from PIL import Image
 import tensorflow as tf
 import numpy as np
 
-# Load your pre-trained model
-model_path = 'D:\Glaucoma streamlit\Glaucoma-classification-streamlit-app\glaucoma_classification_model.h5'
-model = tf.keras.models.load_model(model_path)
+# Load your pre-trained model (You should replace 'path_to_model' with your actual model path)
+model = tf.keras.models.load_model('glaucoma_classification_model.h5')
 
 # Define a function to make predictions
 def predict_image(image):
@@ -46,6 +45,6 @@ if uploaded_file is not None:
         class_names = ['glaucoma', 'normal']  # Replace with your actual class names
         predicted_class = class_names[np.argmax(predictions)]
 
-        st.write(f"Prediction: {predicted_class}")
-        st.write(f"Confidence: {np.max(predictions) * 100:.2f}%")
-
+    st.write(f"Prediction: {predicted_class}")
+    st.write(f"Confidence: {np.max(predictions) * 100:.2f}%")
+    
