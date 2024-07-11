@@ -4,7 +4,7 @@ import tensorflow as tf
 import numpy as np
 
 # Load your pre-trained model (You should replace 'path_to_model' with your actual model path)
-model = tf.keras.models.load_model('D:\Glaucoma streamlit\glaucoma_classification_model.h5')
+model = tf.keras.models.load_model('glaucoma_classification_model.h5')
 
 # Define a function to make predictions
 def predict_image(image):
