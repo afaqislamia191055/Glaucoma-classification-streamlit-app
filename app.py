@@ -3,22 +3,28 @@ from PIL import Image
 import tensorflow as tf
 import numpy as np
 
-# Load your pre-trained model (You should replace 'path_to_model' with your actual model path)
-model = tf.keras.models.load_model('D:\Glaucoma streamlit\glaucoma_classification_model.h5')
+# Load your pre-trained model
+model_path = 'D:\Glaucoma streamlit\Glaucoma-classification-streamlit-app\glaucoma_classification_model.h5'
+model = tf.keras.models.load_model(model_path)
 
 # Define a function to make predictions
 def predict_image(image):
-    # Resize the image to match the input shape expected by the model
-    image = image.resize((128, 128))  # Resize to 128x128
-    image = image.convert('L')  # Convert to grayscale
-    image = np.array(image)
-    image = np.expand_dims(image, axis=-1)  # Add channel dimension
-    image = np.expand_dims(image, axis=0)  # Add batch dimension
-    image = image / 255.0  # Normalize the image to [0, 1] range
+    try:
+        # Resize the image to match the input shape expected by the model
+        image = image.resize((128, 128))  # Resize to 128x128
+        image = image.convert('L')  # Convert to grayscale
+        image = np.array(image)
+        image = np.expand_dims(image, axis=-1)  # Add channel dimension
+        image = np.expand_dims(image, axis=0)  # Add batch dimension
+        image = image / 255.0  # Normalize the image to [0, 1] range
 
-    # Make predictions
-    predictions = model.predict(image)
-    return predictions
+        # Make predictions
+        predictions = model.predict(image)
+        return predictions
+
+    except Exception as e:
+        st.write(f"Error during prediction: {str(e)}")
+        return None
 
 # Streamlit app
 st.title("Image Classification App")
@@ -35,10 +41,11 @@ if uploaded_file is not None:
     # Predict the image
     predictions = predict_image(image)
 
-    # Assuming your model output is a probability distribution over classes
-    class_names = ['glaucoma', 'normal']  # Replace with your actual class names
-    predicted_class = class_names[np.argmax(predictions)]
+    if predictions is not None:
+        # Assuming your model output is a probability distribution over classes
+        class_names = ['glaucoma', 'normal']  # Replace with your actual class names
+        predicted_class = class_names[np.argmax(predictions)]
 
-    st.write(f"Prediction: {predicted_class}")
-    st.write(f"Confidence: {np.max(predictions) * 100:.2f}%")
-    
+        st.write(f"Prediction: {predicted_class}")
+        st.write(f"Confidence: {np.max(predictions) * 100:.2f}%")
+
