@@ -45,6 +45,8 @@ if uploaded_file is not None:
         class_names = ['glaucoma', 'normal']  # Replace with your actual class names
         predicted_class = class_names[np.argmax(predictions)]
 
-    st.write(f"Prediction: {predicted_class}")
-    st.write(f"Confidence: {np.max(predictions) * 100:.2f}%")
+        st.write(f"Prediction: {predicted_class}")
+        st.write(f"Confidence: {np.max(predictions) * 100:.2f}%")
+    else:
+        st.write("Failed to make predictions.")
     
